@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: Box Platform API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            Many Box endpoints use offset-based pagination. `offset` is the
+            zero-based index of the first item to return and `limit` controls
+            the page size (max 1000).
+          request:
+            queryParameters:
+              offset:
+                role: offset
+              limit:
+                role: pageSize
+        marker:
+          type: pageToken
+          description: >-
+            Some Box endpoints use marker-based pagination for large datasets.
+            Pass the `next_marker` value from the previous response as the
+            `marker` parameter in the next request.
+          request:
+            queryParameters:
+              marker:
+                role: pageToken
+              limit:
+                role: pageSize
+          response:
+            bodyFields:
+              next_marker:
+                role: nextPageToken
