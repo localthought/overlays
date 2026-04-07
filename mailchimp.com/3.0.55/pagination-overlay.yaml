@@ -1,0 +1,25 @@
+overlay: 1.0.0
+info:
+  title: Mailchimp Marketing API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            Mailchimp uses offset-based pagination across all list endpoints.
+            `count` controls the number of records returned (default 10, max
+            1000) and `offset` sets the starting position. The response
+            includes `total_items` for the total result count.
+          request:
+            queryParameters:
+              count:
+                role: pageSize
+              offset:
+                role: offset
+          response:
+            bodyFields:
+              total_items:
+                role: totalCount
