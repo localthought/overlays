@@ -1,0 +1,20 @@
+overlay: 1.0.0
+info:
+  title: Asana API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            Asana uses offset-based pagination on standard list endpoints.
+            The `offset` value for the next page is returned in the response
+            `next_page.offset` field.
+          request:
+            queryParameters:
+              limit:
+                role: pageSize
+              offset:
+                role: offset
