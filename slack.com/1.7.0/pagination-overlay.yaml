@@ -1,0 +1,20 @@
+overlay: 1.0.0
+info:
+  title: Slack API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        cursor:
+          type: pageToken
+          description: >-
+            Slack uses cursor-based pagination. Pass the `next_cursor` value
+            from `response_metadata` in the previous response as the `cursor`
+            parameter. An empty `next_cursor` indicates the final page.
+          request:
+            queryParameters:
+              cursor:
+                role: pageToken
+              limit:
+                role: pageSize
