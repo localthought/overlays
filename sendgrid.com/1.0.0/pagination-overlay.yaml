@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: SendGrid API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            SendGrid list endpoints use offset-based pagination with `limit`
+            (number of results per page) and `offset` (starting position).
+          request:
+            queryParameters:
+              limit:
+                role: pageSize
+              offset:
+                role: offset
