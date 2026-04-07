@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: Twitter API v2 Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        paginationToken:
+          type: pageToken
+          description: >-
+            Twitter API v2 uses cursor-based pagination. Most endpoints accept
+            `pagination_token` (and some also accept `next_token` as an alias)
+            to retrieve the next page of results. The next token is returned
+            in the response `meta.next_token` field.
+          request:
+            queryParameters:
+              pagination_token:
+                role: pageToken
+              max_results:
+                role: pageSize
