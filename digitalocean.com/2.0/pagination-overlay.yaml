@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: DigitalOcean API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        pageNumber:
+          type: pageNumber
+          description: >-
+            DigitalOcean uses page-number pagination across all list endpoints.
+            The response includes a `links` object with `pages.next` for
+            navigating to the next page, and a `meta` object with the total
+            item count.
+          request:
+            queryParameters:
+              page:
+                role: page
+              per_page:
+                role: pageSize
