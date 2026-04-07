@@ -1,0 +1,31 @@
+overlay: 1.0.0
+info:
+  title: GitLab API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        pageNumber:
+          type: pageNumber
+          description: >-
+            GitLab uses page-number pagination across all list endpoints.
+            The server returns pagination metadata in response headers:
+            X-Total (total items), X-Total-Pages, X-Page (current page),
+            and X-Per-Page (items per page).
+          request:
+            queryParameters:
+              page:
+                role: page
+              per_page:
+                role: pageSize
+          response:
+            headers:
+              X-Total:
+                role: totalCount
+              X-Total-Pages:
+                role: totalPages
+              X-Page:
+                role: currentPage
+              X-Per-Page:
+                role: pageSize
