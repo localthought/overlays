@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: Xero Accounting API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        pageNumber:
+          type: pageNumber
+          description: >-
+            Xero Accounting API uses 1-based page-number pagination for
+            endpoints that return large collections (e.g. BankTransactions).
+            Each page returns up to 100 records. When the returned array
+            is empty, all records have been retrieved.
+          request:
+            queryParameters:
+              page:
+                role: page
