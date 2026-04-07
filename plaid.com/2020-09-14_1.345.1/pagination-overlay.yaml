@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: Plaid API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            Some Plaid endpoints (e.g. /bank_transfer/list) use offset-based
+            pagination with `count` (results per page) and `offset` (starting
+            position).
+          request:
+            bodyFields:
+              count:
+                role: pageSize
+              offset:
+                role: offset
+        cursor:
+          type: pageToken
+          description: >-
+            Plaid sync endpoints use cursor-based pagination. The `cursor`
+            body parameter is set to the `next_cursor` from the previous
+            response to fetch the next batch of results.
+          request:
+            bodyFields:
+              cursor:
+                role: pageToken
+          response:
+            bodyFields:
+              next_cursor:
+                role: nextPageToken
