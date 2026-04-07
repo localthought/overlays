@@ -1,0 +1,25 @@
+overlay: 1.0.0
+info:
+  title: Notion API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        cursor:
+          type: pageToken
+          description: >-
+            Notion uses cursor-based pagination across all list endpoints.
+            Pass the `next_cursor` value from the previous response as
+            `start_cursor` in the next request. The response includes
+            `has_more` to indicate whether additional results exist.
+          request:
+            queryParameters:
+              start_cursor:
+                role: pageToken
+              page_size:
+                role: pageSize
+          response:
+            bodyFields:
+              next_cursor:
+                role: nextCursor
