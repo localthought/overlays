@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: Linode API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        pageNumber:
+          type: pageNumber
+          description: >-
+            Linode uses 1-based page-number pagination. `page` selects the
+            page (default 1) and `page_size` controls items per page (default
+            100, range 25-500). Responses include `page`, `pages` (total),
+            and `results` (total item count).
+          request:
+            queryParameters:
+              page:
+                role: page
+              page_size:
+                role: pageSize
+          response:
+            bodyFields:
+              page:
+                role: currentPage
+              pages:
+                role: totalPages
+              results:
+                role: totalCount
