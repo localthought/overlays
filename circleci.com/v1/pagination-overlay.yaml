@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: CircleCI API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        offset:
+          type: pageNumber
+          description: >-
+            CircleCI list endpoints use offset-based pagination with `limit`
+            (default 30, max 100) and `offset` (default 0) query parameters.
+          request:
+            queryParameters:
+              limit:
+                role: pageSize
+              offset:
+                role: offset
