@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: Twilio API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        pageToken:
+          type: pageToken
+          description: >-
+            Twilio provides a `PageToken` for efficient cursor-based navigation.
+            The response includes `next_page_uri` with the full URI for the next
+            page of results.
+          request:
+            queryParameters:
+              PageToken:
+                role: pageToken
+              PageSize:
+                role: pageSize
+          response:
+            bodyFields:
+              next_page_uri:
+                role: nextLink
+        pageNumber:
+          type: pageNumber
+          description: >-
+            Twilio also supports page-number pagination via the `Page` parameter.
+            The response confirms the current page number and page size.
+          request:
+            queryParameters:
+              Page:
+                role: page
+              PageSize:
+                role: pageSize
+          response:
+            bodyFields:
+              next_page_uri:
+                role: nextLink
+              page:
+                role: currentPage
+              page_size:
+                role: pageSize
