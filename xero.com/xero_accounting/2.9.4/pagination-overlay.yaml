@@ -8,12 +8,22 @@ actions:
       paginationSchemes:
         pageNumber:
           type: pageNumber
-          description: >-
-            Xero Accounting API uses 1-based page-number pagination for
-            endpoints that return large collections (e.g. BankTransactions).
-            Each page returns up to 100 records. When the returned array
-            is empty, all records have been retrieved.
+          description: >
+            The Xero Accounting API uses page-number pagination on collection
+            endpoints. Pass the `page` query parameter (1-based) to retrieve
+            successive pages. Each page returns up to 100 items. Omitting
+            `page` returns only the first 100 results. Increment `page` until
+            fewer than 100 results are returned, indicating the last page.
           request:
             queryParameters:
               page:
                 role: page
+                description: >
+                  The page number to retrieve. Starts at 1. Each page
+                  returns up to 100 items. When omitted, only the first 100
+                  results are returned.
+              pageSize:
+                role: pageSize
+                description: >
+                  The number of records to return per page. Only applicable
+                  on certain endpoints. When supported, defaults to 100.

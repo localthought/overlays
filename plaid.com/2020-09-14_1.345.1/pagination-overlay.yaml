@@ -7,28 +7,30 @@ actions:
     update:
       paginationSchemes:
         offset:
-          type: pageNumber
-          description: >-
-            Some Plaid endpoints (e.g. /bank_transfer/list) use offset-based
-            pagination with `count` (results per page) and `offset` (starting
-            position).
+          type: offset
+          description: >
+            Plaid uses offset-based pagination on list endpoints such as bank
+            transfers. Pass `count` to limit the number of results returned
+            and `offset` to skip past previously returned records. The
+            response includes a `has_more` boolean that is `true` when
+            additional results are available beyond the current page.
           request:
-            bodyFields:
+            queryParameters:
               count:
                 role: pageSize
+                description: >
+                  The maximum number of results to return per request.
               offset:
                 role: offset
-        cursor:
-          type: pageToken
-          description: >-
-            Plaid sync endpoints use cursor-based pagination. The `cursor`
-            body parameter is set to the `next_cursor` from the previous
-            response to fetch the next batch of results.
-          request:
-            bodyFields:
-              cursor:
-                role: pageToken
+                description: >
+                  The offset into the list at which to begin retrieving
+                  results. Start at 0 for the first page; increment by
+                  `count` to fetch subsequent pages.
           response:
             bodyFields:
-              next_cursor:
-                role: nextPageToken
+              has_more:
+                role: hasMore
+                description: >
+                  `true` if additional results exist beyond those returned
+                  in this response. Fetch the next page by incrementing
+                  `offset` by `count`.

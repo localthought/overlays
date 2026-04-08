@@ -7,13 +7,23 @@ actions:
     update:
       paginationSchemes:
         offset:
-          type: pageNumber
-          description: >-
-            SendGrid list endpoints use offset-based pagination with `limit`
-            (number of results per page) and `offset` (starting position).
+          type: offset
+          description: >
+            SendGrid uses offset-based pagination for list endpoints that
+            support it. Pass `limit` to control the page size and `offset`
+            to skip records. Increment offset by the limit value to advance
+            to the next page. The response `result` array being shorter
+            than the requested `limit` indicates the last page.
           request:
             queryParameters:
               limit:
                 role: pageSize
+                description: >
+                  The number of results to return per page. Defaults vary
+                  by endpoint (commonly 10 or 20). Maximum varies by
+                  endpoint.
               offset:
                 role: offset
+                description: >
+                  The number of results to skip before returning data.
+                  Used to page through results. Default is 0.
