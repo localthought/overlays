@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: Stripe API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        cursor:
+          type: pageToken
+          description: >-
+            Stripe uses cursor-based pagination. Pass the `id` of the last
+            object from the previous response as `starting_after` to fetch
+            the next page. The `has_more` field in the response indicates
+            whether additional pages are available.
+          request:
+            queryParameters:
+              starting_after:
+                role: cursor
+              ending_before:
+                role: cursor
+              limit:
+                role: pageSize
+          response:
+            bodyFields:
+              has_more:
+                role: x-hasMore
