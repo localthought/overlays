@@ -1,0 +1,50 @@
+overlay: 1.0.0
+info:
+  title: Instagram API Pagination Schemes
+  version: 1.0.0
+actions:
+  - target: $.components
+    update:
+      paginationSchemes:
+        cursor:
+          type: pageToken
+          description: >
+            The Instagram API uses ID-based cursor pagination across media list
+            endpoints. To fetch older content, pass the `max_id` from the
+            previous response's `pagination.next_max_id` field. To fetch newer
+            content, pass the `min_id` from the previous response's
+            `pagination.min_id` field. The `count` parameter controls how many
+            items are returned per request. The response includes a `pagination`
+            object with `next_max_id` (cursor for the next/older page) and
+            `next_url` (the full URL to fetch the next page).
+          request:
+            queryParameters:
+              max_id:
+                role: pageToken
+                description: >
+                  Return media earlier than this `max_id`. Used as a cursor to
+                  paginate backward (toward older content). Pass the value of
+                  `pagination.next_max_id` from the previous response to
+                  retrieve the next page.
+              min_id:
+                role: pageToken
+                description: >
+                  Return media later than this `min_id`. Used as a cursor to
+                  paginate forward (toward newer content).
+              count:
+                role: pageSize
+                description: >
+                  The number of media items to return per request.
+          response:
+            bodyFields:
+              pagination.next_max_id:
+                role: nextPageToken
+                description: >
+                  Cursor pointing to the next page of older content. Pass this
+                  value as `max_id` in the subsequent request to retrieve the
+                  next page.
+              pagination.next_url:
+                role: nextLink
+                description: >
+                  Full URL to the next page of results. Contains the `max_id`
+                  cursor pre-populated for convenience.
