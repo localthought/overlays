@@ -7,7 +7,7 @@ actions:
     update:
       paginationSchemes:
         offset:
-          type: offset
+          type: pageNumber
           description: >
             Giphy list endpoints (search, trending) use offset-based pagination.
             Pass `limit` to control the page size and `offset` to skip results.
@@ -34,6 +34,6 @@ actions:
                 description: >
                   Number of items returned in the current response.
               pagination.offset:
-                role: offset
+                role: x-offset
                 description: >
                   The current offset position into the result set.
