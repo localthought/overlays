@@ -10,7 +10,7 @@ actions:
       crudResources:
         contact:
           schema:
-            $ref: '#/components/schemas/contact_response'
+            $ref: '#/components/schemas/contact'
           description: A contact in a Moneybird administration.
           identity:
             urlTemplate: /{administration_id}/contacts/{id}.json
