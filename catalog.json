@@ -16,7 +16,8 @@
       "overlays": [
         "https://raw.githubusercontent.com/localthought/overlays/11019717575be9e6f6ce47bf63782cf68a6ce043/googleapis.com/google-calendar/v3/auth-overlay.yaml",
         "https://raw.githubusercontent.com/localthought/overlays/d603d5453e9dc5ec26a1d7a6b9cfaeec934d5f4a/googleapis.com/google-calendar/v3/pagination-overlay.yaml",
-        "https://raw.githubusercontent.com/localthought/overlays/d603d5453e9dc5ec26a1d7a6b9cfaeec934d5f4a/googleapis.com/google-calendar/v3/crud-causality-overlay.yaml"
+        "https://raw.githubusercontent.com/localthought/overlays/d603d5453e9dc5ec26a1d7a6b9cfaeec934d5f4a/googleapis.com/google-calendar/v3/crud-causality-overlay.yaml",
+        "https://raw.githubusercontent.com/localthought/overlays/0621413709fc88d65e908ae3643ceaaa53872194/googleapis.com/google-calendar/v3/schema-overlay.yaml"
       ]
     },
     {
