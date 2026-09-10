@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: Todoist API Authentication Profile
+  version: 1.0.0
+# Todoist API v1 accepts an OAuth 2.0 access token (and personal API tokens)
+# as a bearer token. The proxy's Todoist provider obtains the OAuth token;
+# this overlay carries the authentication contract with the catalog document.
+actions:
+  - target: $.components.securitySchemes
+    update:
+      todoistToken:
+        type: http
+        scheme: bearer
+        description: >
+          Todoist OAuth 2.0 access token, sent as Authorization: Bearer.
+          Read-only integrations request the data:read scope.
