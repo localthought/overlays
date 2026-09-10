@@ -107,16 +107,12 @@ subscription_parameters = document.fetch('paths').fetch(subscription_path).fetch
 end
 crud['actions'] << { 'target' => "$.paths['#{subscription_path}'].get", 'update' => { 'parameters' => subscription_parameters } }
 
-selection_actions = inventory.map do |entry|
+selection_overrides = inventory.map do |entry|
   values = entry.fetch('constant_query', []).to_h { |item| [item.fetch('name'), item.fetch('value')] }
   next if values.empty?
-  { 'target' => "$.components.crudResources.#{resource_name.call(entry.fetch('name'))}.collections.#{entry.fetch('name')}", 'update' => { 'x-list-query' => values } }
+  { 'path' => entry.fetch('path'), 'values' => values }
 end.compact
-selection = {
-  'overlay' => '1.0.0',
-  'info' => { 'title' => 'Moneybird All Records Consumer Selection Profile', 'version' => '1.0.0' },
-  'actions' => selection_actions
-}
+selection = { 'query_overrides' => selection_overrides }
 
 auth = {
   'overlay' => '1.0.0',
@@ -125,23 +121,22 @@ auth = {
     'moneybirdOAuth' => { 'type' => 'oauth2', 'flows' => { 'authorizationCode' => {
       'authorizationUrl' => 'https://moneybird.com/oauth/authorize', 'tokenUrl' => 'https://moneybird.com/oauth/token',
       'scopes' => %w[sales_invoices documents estimates bank time_entries settings].to_h { |scope| [scope, "Read Moneybird #{scope.tr('_', ' ')} data."] }
-    } } },
-    'moneybirdToken' => { 'type' => 'http', 'scheme' => 'bearer', 'description' => 'Moneybird personal API token.' }
+    } } }
   } }]
 }
 document.fetch('paths').each do |path, path_item|
   operation = path_item['get']
   next unless operation
-  scopes = operation.fetch('security', document.fetch('security', [])).flat_map { |requirement| requirement.values }.uniq
+  scopes = operation.fetch('security', document.fetch('security', [])).flat_map { |requirement| requirement.values }.flatten.uniq
   auth['actions'] << {
     'target' => "$.paths['#{path}'].get",
-    'update' => { 'security' => [{ 'moneybirdOAuth' => scopes }, { 'moneybirdToken' => [] }] }
+    'update' => { 'security' => [{ 'moneybirdOAuth' => scopes }, { 'bearerAuth' => [] }] }
   }
 end
 
 {
   'crud-causality-overlay.yaml' => crud,
   'pagination-overlay.yaml' => pagination,
-  'auth-overlay.yaml' => auth,
-  'all-records-selection-overlay.yaml' => selection
+  'auth-overlay.yaml' => auth
 }.each { |name, value| File.write(File.join(target_dir, name), YAML.dump(value, line_width: -1)) }
+File.write(File.join(target_dir, 'all-records-selection.json'), JSON.pretty_generate(selection) + "\n")

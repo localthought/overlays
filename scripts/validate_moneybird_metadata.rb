@@ -56,9 +56,26 @@ pagination_actions = overlays.fetch('pagination-overlay.yaml').fetch('actions').
 expected_paginated = inventory.count { |entry| entry.dig('pagination', 'page') }
 errors << "expected #{expected_paginated} pagination applications, found #{pagination_actions.length}" unless pagination_actions.length == expected_paginated
 
-selection = overlays.fetch('all-records-selection-overlay.yaml')
+selection = JSON.parse(File.read(File.join(metadata_dir, 'all-records-selection.json')))
 errors << 'consumer selection profile leaked into CRUD metadata' if File.read(File.join(metadata_dir, 'crud-causality-overlay.yaml')).include?('x-list-query')
-errors << 'expected six explicit consumer selections' unless selection.fetch('actions').length == 6
+errors << 'expected six explicit consumer selections' unless selection.fetch('query_overrides').length == 6
+
+catalog = JSON.parse(File.read(File.expand_path('../catalog.json', __dir__)))
+platforms = catalog.fetch('platforms')
+errors << 'catalog must preserve all six platforms' unless platforms.length == 6
+errors << 'catalog platform names must remain unique' unless platforms.map { |platform| platform['name'] }.uniq.length == platforms.length
+moneybird = platforms.find { |platform| platform['name'] == 'moneybird' }
+errors << 'catalog is missing Moneybird' unless moneybird
+if moneybird
+  oad_pin = '85a6105220036a98ef0d7cd6f228d4aae0036508'
+  overlay_pin = '7df9d9c6724c2d5f2d41126d7446c1021ec8e254'
+  errors << 'catalog has the wrong Moneybird OAD pin' unless moneybird['openapi'].include?(oad_pin)
+  errors << 'catalog has an unpinned Moneybird overlay' unless moneybird.fetch('overlays').all? { |url| url.include?(overlay_pin) }
+  errors << 'consumer selection must not be composed as an overlay' if moneybird.fetch('overlays').any? { |url| url.include?('selection') }
+  errors << 'catalog selection differs from reviewed consumer config' unless moneybird['selection'] == selection
+end
+contact = resources['contact']
+errors << 'contact schema identity namespace changed' unless contact&.dig('schema', '$ref') == '#/components/schemas/contact' && contact&.dig('identity', 'urlTemplate') == '/{administration_id}/contacts/{id}.json'
 
 forbidden = /x-import-policy|listQueryBindings|singleton:/
 overlays.each do |name, overlay|

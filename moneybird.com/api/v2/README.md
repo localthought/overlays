@@ -8,10 +8,11 @@ reads, and response Links. The contact-to-subscriptions relation uses standard
 Link request context plus the proposed `x-for-each` item binding; publication
 of that dependency waits for the filtering/Link proposal review.
 
-`all-records-selection-overlay.yaml` is deliberately separate. Its query
-values request archived, inactive, billed, and unbilled records for an “all
-records” import. Those values are consumer choices rather than claims about
-Moneybird's default API behavior.
+`all-records-selection.json` is deliberately separate from the overlays. Its
+generic `query_overrides` request archived, inactive, billed, and unbilled
+records for an “all records” import. The catalog passes this object to the
+client as explicit consumer configuration; it is never composed into the
+OpenAPI document and makes no claim about Moneybird's default API behavior.
 
 Regenerate and validate from a checkout containing the generated OpenAPI
 document:
