@@ -21,3 +21,9 @@ document:
 ruby scripts/generate_moneybird_metadata.rb /path/to/APIs/moneybird.com/v2-readonly
 ruby scripts/validate_moneybird_metadata.rb /path/to/APIs/moneybird.com/v2-readonly
 ```
+
+`throttling-overlay.yaml` describes the API's announced 150-request, 300-second
+source-IP quota using `spec/throttling` from pondersource/openapi-extensions. The
+window algorithm is explicitly unspecified; pacing/retries remain consumer
+choices. The catalog excludes report endpoints, whose stricter quota is not
+modeled by this overlay. Source: https://developer.moneybird.com/#throttling
