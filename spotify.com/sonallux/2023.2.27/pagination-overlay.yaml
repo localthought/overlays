@@ -7,7 +7,7 @@ actions:
     update:
       paginationSchemes:
         offset:
-          type: pageNumber
+          type: offset
           description: >
             Spotify uses offset-based pagination for most list endpoints.
             Pass `limit` to set the page size and `offset` to skip items.
@@ -34,11 +34,21 @@ actions:
                   URL to the next page of items, or null if this is the
                   last page. The URL includes `offset` and `limit`
                   parameters for the next page.
+              previous:
+                role: prevLink
+                description: >
+                  URL to the previous page of items, or null if this is
+                  the first page.
               total:
                 role: totalCount
                 description: >
                   The total number of items available to return across
                   all pages.
+              offset:
+                role: currentOffset
+                description: >
+                  The offset of the items returned (the position in the
+                  list of the first item in the response).
               limit:
                 role: pageSize
                 description: >
@@ -59,6 +69,11 @@ actions:
                   A Unix timestamp in milliseconds. Returns all items
                   after (but not including) this cursor position. Use
                   the `cursors.after` value from the previous response.
+              before:
+                role: prevPageToken
+                description: >
+                  A Unix timestamp in milliseconds. Returns all items
+                  before (but not including) this cursor position.
               limit:
                 role: pageSize
                 description: >
@@ -71,6 +86,11 @@ actions:
                 description: >
                   The cursor to use as `after` parameter to get the next
                   page of items.
+              cursors.before:
+                role: prevPageToken
+                description: >
+                  The cursor to use as `before` parameter to get the
+                  previous page of items.
               next:
                 role: nextLink
                 description: >
