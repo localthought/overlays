@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: Discord API Authentication Profile
+  version: 1.0.0
+# Discord's identify and guilds scopes are sufficient for the read-only slice
+# exposed by the Local Thought integration. The proxy obtains the access token
+# through Discord's authorization-code flow and sends it as a bearer token.
+actions:
+  - target: $.components.securitySchemes
+    update:
+      discordOAuth:
+        type: oauth2
+        flows:
+          authorizationCode:
+            authorizationUrl: https://discord.com/oauth2/authorize
+            tokenUrl: https://discord.com/api/v10/oauth2/token
+            scopes:
+              identify: Read the authenticated user's basic profile.
+              guilds: Read the guilds in which the authenticated user is a member.
