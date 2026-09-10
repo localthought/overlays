@@ -21,12 +21,22 @@
     },
     {
       "name": "moneybird",
-      "openapi": "https://raw.githubusercontent.com/localthought/openapi-directory/c4a7e561444feee190dfc6a222d78b17c26bbf01/APIs/moneybird.com/v2-readonly/openapi.yaml",
+      "openapi": "https://raw.githubusercontent.com/localthought/openapi-directory/85a6105220036a98ef0d7cd6f228d4aae0036508/APIs/moneybird.com/v2-readonly/openapi.yaml",
       "overlays": [
-        "https://raw.githubusercontent.com/localthought/overlays/11019717575be9e6f6ce47bf63782cf68a6ce043/moneybird.com/api/v2/auth-overlay.yaml",
-        "https://raw.githubusercontent.com/localthought/overlays/e00543f9031e5b0dea0f4b130787a7289f1602fb/moneybird.com/api/v2/pagination-overlay.yaml",
-        "https://raw.githubusercontent.com/localthought/overlays/e00543f9031e5b0dea0f4b130787a7289f1602fb/moneybird.com/api/v2/crud-causality-overlay.yaml"
-      ]
+        "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/auth-overlay.yaml",
+        "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/pagination-overlay.yaml",
+        "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/crud-causality-overlay.yaml"
+      ],
+      "selection": {
+        "query_overrides": [
+          { "path": "/{administration_id}/assets.json", "values": { "active": false } },
+          { "path": "/{administration_id}/contacts/{contact_id}/additional_charges.json", "values": { "include_billed": true } },
+          { "path": "/{administration_id}/contacts.json", "values": { "include_archived": true } },
+          { "path": "/{administration_id}/products.json", "values": { "active": false } },
+          { "path": "/{administration_id}/projects.json", "values": { "filter": "state:all" } },
+          { "path": "/{administration_id}/subscriptions/{id}/additional_charges.json", "values": { "include_billed": true } }
+        ]
+      }
     },
     {
       "name": "todoist",
