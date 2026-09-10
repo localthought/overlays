@@ -41,9 +41,13 @@ actions:
     security:
     - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - bank
+    - moneybirdOAuth:
       - settings
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/contacts/{contact_id}/moneybird_payments_mandate.json'].get"
@@ -51,9 +55,13 @@ actions:
     security:
     - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - bank
+    - moneybirdOAuth:
       - settings
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/contacts/{contact_id}/additional_charges.json'].get"
@@ -67,9 +75,13 @@ actions:
     security:
     - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - bank
+    - moneybirdOAuth:
       - settings
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/contacts.json'].get"
@@ -77,9 +89,13 @@ actions:
     security:
     - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - bank
+    - moneybirdOAuth:
       - settings
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/custom_fields.json'].get"
@@ -87,9 +103,13 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - bank
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/document_styles.json'].get"
@@ -97,7 +117,9 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - estimates
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/documents/general_documents/{id}.json'].get"
@@ -230,8 +252,11 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/ledger_accounts.json'].get"
@@ -239,8 +264,11 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/payments/{id}.json'].get"
@@ -409,8 +437,11 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/time_entries/{id}.json'].get"
@@ -448,9 +479,13 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - bank
     - bearerAuth: []
 - target: "$.paths['/{administration_id}/workflows.json'].get"
@@ -458,8 +493,12 @@ actions:
     security:
     - moneybirdOAuth:
       - settings
+    - moneybirdOAuth:
       - sales_invoices
+    - moneybirdOAuth:
       - documents
+    - moneybirdOAuth:
       - estimates
+    - moneybirdOAuth:
       - bank
     - bearerAuth: []

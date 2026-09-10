@@ -127,10 +127,17 @@ auth = {
 document.fetch('paths').each do |path, path_item|
   operation = path_item['get']
   next unless operation
-  scopes = operation.fetch('security', document.fetch('security', [])).flat_map { |requirement| requirement.values }.flatten.uniq
+  source_security = operation.fetch('security', document.fetch('security', []))
+  oauth_security = source_security.flat_map do |requirement|
+    requirement.map do |_scheme, scopes|
+      raise "invalid security scopes for #{path}" unless scopes.is_a?(Array) && scopes.all? { |scope| scope.is_a?(String) }
+
+      { 'moneybirdOAuth' => scopes }
+    end
+  end.uniq
   auth['actions'] << {
     'target' => "$.paths['#{path}'].get",
-    'update' => { 'security' => [{ 'moneybirdOAuth' => scopes }, { 'bearerAuth' => [] }] }
+    'update' => { 'security' => oauth_security + [{ 'bearerAuth' => [] }] }
   }
 end
 

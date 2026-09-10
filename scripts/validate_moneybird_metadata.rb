@@ -51,6 +51,24 @@ errors << 'not every GET has an authentication requirement' unless auth_actions.
 declared_scopes = auth_actions.first.dig('update', 'moneybirdOAuth', 'flows', 'authorizationCode', 'scopes').keys.sort
 expected_scopes = %w[bank documents estimates sales_invoices settings time_entries]
 errors << "OAuth scopes differ: #{declared_scopes.inspect}" unless declared_scopes == expected_scopes
+auth_by_target = auth_actions.drop(1).to_h { |action| [action.fetch('target'), action.dig('update', 'security')] }
+document.fetch('paths').each do |path, path_item|
+  operation = path_item['get']
+  next unless operation
+
+  target = "$.paths['#{path}'].get"
+  actual = auth_by_target[target]
+  expected_oauth = operation.fetch('security', document.fetch('security', [])).flat_map do |requirement|
+    requirement.map { |_scheme, scopes| { 'moneybirdOAuth' => scopes } }
+  end.uniq
+  errors << "#{target}: security alternatives changed" unless actual == expected_oauth + [{ 'bearerAuth' => [] }]
+  actual&.each do |requirement|
+    errors << "#{target}: invalid security requirement" unless requirement.is_a?(Hash) && requirement.length == 1
+    requirement&.each_value do |scopes|
+      errors << "#{target}: scopes must be a flat string array" unless scopes.is_a?(Array) && scopes.all? { |scope| scope.is_a?(String) }
+    end
+  end
+end
 
 pagination_actions = overlays.fetch('pagination-overlay.yaml').fetch('actions').drop(1)
 expected_paginated = inventory.count { |entry| entry.dig('pagination', 'page') }
@@ -70,7 +88,7 @@ if moneybird
   oad_pin = '85a6105220036a98ef0d7cd6f228d4aae0036508'
   overlay_pin = '7df9d9c6724c2d5f2d41126d7446c1021ec8e254'
   errors << 'catalog has the wrong Moneybird OAD pin' unless moneybird['openapi'].include?(oad_pin)
-  errors << 'catalog has an unpinned Moneybird overlay' unless moneybird.fetch('overlays').all? { |url| url.include?(overlay_pin) }
+  errors << 'catalog has an unpinned Moneybird non-auth overlay' unless moneybird.fetch('overlays').drop(1).all? { |url| url.include?(overlay_pin) }
   errors << 'consumer selection must not be composed as an overlay' if moneybird.fetch('overlays').any? { |url| url.include?('selection') }
   errors << 'catalog selection differs from reviewed consumer config' unless moneybird['selection'] == selection
 end
