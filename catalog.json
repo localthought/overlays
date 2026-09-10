@@ -24,7 +24,7 @@
       "name": "moneybird",
       "openapi": "https://raw.githubusercontent.com/localthought/openapi-directory/85a6105220036a98ef0d7cd6f228d4aae0036508/APIs/moneybird.com/v2-readonly/openapi.yaml",
       "overlays": [
-        "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/auth-overlay.yaml",
+        "https://raw.githubusercontent.com/localthought/overlays/14358caa72aebef5ac32ec8a9e217e7ed3e7b6f4/moneybird.com/api/v2/auth-overlay.yaml",
         "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/pagination-overlay.yaml",
         "https://raw.githubusercontent.com/localthought/overlays/7df9d9c6724c2d5f2d41126d7446c1021ec8e254/moneybird.com/api/v2/crud-causality-overlay.yaml"
       ],
