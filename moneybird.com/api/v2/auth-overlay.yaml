@@ -1,17 +1,34 @@
 overlay: 1.0.0
 info:
-  title: Moneybird API Authentication Profile
-  version: 1.0.0
-# Moneybird accepts either a personal API token or an OAuth 2.0 access token.
-# Both are sent as a bearer token. The integration proxy may mint the OAuth
-# token; deployments can also provide a personal token for local use.
+  title: moneybird OAuth authorization requirements
+  version: 1.1.0
 actions:
-  - target: $.components.securitySchemes
-    update:
-      moneybirdToken:
-        type: http
-        scheme: bearer
-        description: >
-          Moneybird personal API token or OAuth 2.0 access token, sent as
-          Authorization: Bearer. OAuth applications may request sales_invoices,
-          documents, estimates, bank, time_entries, or settings scopes.
+- target: $.components.securitySchemes
+  update:
+    moneybirdOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://moneybird.com/oauth/authorize
+          tokenUrl: https://moneybird.com/oauth/token
+          scopes:
+            sales_invoices: Access sales invoices and contacts.
+- target: $.paths['/administrations.json'].get
+  update:
+    security:
+    - moneybirdOAuth:
+      - sales_invoices
+    - &id001
+      bearerAuth: []
+- target: $.paths['/{administration_id}/contacts.json'].get
+  update:
+    security:
+    - moneybirdOAuth:
+      - sales_invoices
+    - *id001
+- target: $.paths['/{administration_id}/contacts/{id}.json'].get
+  update:
+    security:
+    - moneybirdOAuth:
+      - sales_invoices
+    - *id001
