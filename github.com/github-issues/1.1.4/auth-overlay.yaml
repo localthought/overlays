@@ -1,20 +1,60 @@
 overlay: 1.0.0
 info:
-  title: GitHub Issues API Authentication Profile
-  version: 1.0.0
-# GitHub is authenticated with a static personal-access / installation token,
-# not an interactive OAuth flow, so — unlike the Google Calendar auth overlay —
-# this declares an `http`/`bearer` security scheme rather than an `oauth2`
-# authorizationCode flow. Reflector's StaticTokenManager sends the configured
-# token as `Authorization: Bearer <token>`; the API base is read from the
-# document's `servers`. The base document already carries this scheme; the
-# overlay states it explicitly so the auth intent travels with the overlays.
+  title: github-issues OAuth authorization requirements
+  version: 1.1.0
 actions:
-  - target: $.components.securitySchemes
-    update:
-      githubToken:
-        type: http
-        scheme: bearer
-        description: >
-          GitHub personal-access or installation token, sent as a bearer
-          token. Supplied as deployment configuration, not via OAuth.
+- target: $.components.securitySchemes
+  update:
+    githubOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            repo: Access public and private repositories, including issues and comments.
+- target: $.paths['/repos/{owner}/{repo}/issues'].get
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues'].post
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/comments/{comment_id}'].delete
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/comments/{comment_id}'].get
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/comments/{comment_id}'].patch
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/{issue_number}'].get
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/{issue_number}'].patch
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/{issue_number}/comments'].get
+  update:
+    security:
+    - githubOAuth:
+      - repo
+- target: $.paths['/repos/{owner}/{repo}/issues/{issue_number}/comments'].post
+  update:
+    security:
+    - githubOAuth:
+      - repo
