@@ -1,0 +1,17 @@
+overlay: 1.0.0
+info:
+  title: Spotify Web API Authentication Profile
+  version: 1.0.0
+# Spotify's OAuth authorization-code flow is initiated by the integration
+# proxy with PKCE. The proxy forwards the resulting access token as a bearer
+# credential. The read-only catalog slice requests only these playlist scopes.
+actions:
+  - target: $.components.securitySchemes
+    update:
+      spotifyToken:
+        type: http
+        scheme: bearer
+        description: >
+          Spotify OAuth 2.0 access token, sent as a bearer token. The initial
+          read-only playlist integration requests playlist-read-private and
+          playlist-read-collaborative.
