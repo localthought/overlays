@@ -1,7 +1,7 @@
 overlay: 1.0.0
 info:
   title: google-calendar OAuth authorization requirements
-  version: 1.1.0
+  version: 1.2.0
 actions:
 - target: $.components.securitySchemes
   update:
@@ -108,3 +108,27 @@ actions:
       - https://www.googleapis.com/auth/calendar.calendarlist.readonly
     - googleOffline:
       - https://www.googleapis.com/auth/calendar.calendarlist.readonly
+
+# The base document (now the full, generated googleapis.com/calendar/v3
+# document — see catalog.json) already declares this `patch` operation in
+# full: operationId, parameters, and a requestBody/200 response both typed
+# as `#/components/schemas/Event`. It only needs narrowing to the one scope
+# this platform actually requests (its own `security` lists every scope
+# alternative Google's Discovery doc allows) and a `412` response, which
+# Discovery's format has no room to express, documenting the optimistic-
+# concurrency conflict Devonian's lens (`applyCalendarEdit` in
+# localthought/devonian) handles via `If-Match`/ETag. Reuses the
+# `calendar.events` scope already requested for the events GET operations
+# above, so no new consent/reconnect is required.
+- target: $.paths['/calendars/{calendarId}/events/{eventId}'].patch
+  update:
+    security:
+    - googleOnline:
+      - https://www.googleapis.com/auth/calendar.events
+    - googleOffline:
+      - https://www.googleapis.com/auth/calendar.events
+    responses:
+      '412':
+        description: >
+          The If-Match precondition failed: the event changed remotely
+          since it was last read.
