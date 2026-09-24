@@ -1,4 +1,11 @@
 # overlays
+
+> **Archived.** This repository has moved to
+> [`overlays/` in ontola/atomic-plugins](https://github.com/ontola/atomic-plugins/tree/main/overlays),
+> full history included. Open issues and pull requests there. The production
+> catalog is served from
+> <https://raw.githubusercontent.com/ontola/atomic-plugins/refs/heads/main/overlays/catalog.json>.
+
 OpenAPI Overlay files that complete existing OpenAPI files with Pagination Schemes and other additions
 
 ## Authenticated principal overlays
